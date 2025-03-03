@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -24,6 +25,15 @@ public class OrderController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PostMapping("/{orderId}")
+    public ResponseEntity<Void> sendOrder(@PathVariable String orderId) {
+        orderService.send(orderId);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
                 .build();
     }
 

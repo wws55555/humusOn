@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+        @jakarta.persistence.Index(name = "idx_order_id", columnList = "orderId")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
@@ -17,6 +19,7 @@ public class Order {
     @Id @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String orderId;
 
     private String customerName;
