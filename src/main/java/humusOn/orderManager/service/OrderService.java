@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClientService webClientService;
 
     public Order save(Order order) {
         if (orderRepository.findOrderByOrderId(order.getOrderId()).isPresent()) {
@@ -27,16 +27,10 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Mono<Void> send(String orderId) {
+    public void send(String orderId) {
         Order order = orderRepository.findOrderByOrderId(orderId)
                 .orElseThrow(NotFoundOrderException::new);
-        String url = "/orders/send";
-        return webClient
-                .post()
-                .uri(url)
-                .bodyValue(OrderSendRequest.from(order))
-                .retrieve()
-                .bodyToMono(Void.class);
+        webClientService.sendOrder(OrderSendRequest.from(order));
     }
 
     public Order findByOrderId(String orderId) {

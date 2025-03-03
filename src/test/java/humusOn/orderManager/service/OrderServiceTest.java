@@ -3,19 +3,20 @@ package humusOn.orderManager.service;
 import humusOn.orderManager.domain.Order;
 import humusOn.orderManager.repository.OrderRepository;
 import org.junit.jupiter.api.*;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@EnableFeignClients(basePackages = "humusOn.orderManager.client")
 class OrderServiceTest {
+
+    private static ClientAndServer mockWebServer;
+
 
     @Autowired
     private OrderService orderService;
@@ -54,28 +55,6 @@ class OrderServiceTest {
         assertEquals(order, savedOrder);
 
     }
-
-//    @DisplayName("주문을 전송한다.")
-//    @Test
-//    void send() {
-//        //given
-//        String orderId = "testOrderId";
-//        String customerName = "testName";
-//        String date = "testDate";
-//        String status = "testStatus";
-//        Order order = Order.builder()
-//                .orderId(orderId)
-//                .customerName(customerName)
-//                .date(date)
-//                .status(status)
-//                .build();
-//
-//        //when
-//        orderService.send(order);
-//
-//        //then
-//
-//    }
 
     @DisplayName("주문ID로 주문을 조회한다.")
     @Test

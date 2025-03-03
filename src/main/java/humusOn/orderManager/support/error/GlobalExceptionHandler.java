@@ -1,6 +1,7 @@
 package humusOn.orderManager.support.error;
 
 import humusOn.orderManager.support.error.exception.BadRequestException;
+import humusOn.orderManager.support.error.exception.ExternalServerException;
 import humusOn.orderManager.support.error.exception.NotFoundException;
 import humusOn.orderManager.support.response.ErrorData;
 import humusOn.orderManager.support.response.ValidationErrorData;
@@ -92,6 +93,14 @@ public class GlobalExceptionHandler {
 
         ErrorData errorData = ErrorData.of(e.getErrorCode(), e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorData);
+    }
+
+    @ExceptionHandler(ExternalServerException.class)
+    public ResponseEntity<ErrorData> handleExternalServerException(ExternalServerException e) {
+        log.info("ExternalServerException: {}, ErrorCode: {}", e.getMessage(), e.getErrorCode().name());
+
+        ErrorData errorData = ErrorData.of(e.getErrorCode(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorData);
     }
 
 }
