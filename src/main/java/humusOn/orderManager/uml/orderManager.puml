@@ -1,0 +1,14 @@
+@startuml
+class Order {
+    - Long id
+    - String orderId
+    - String customerName
+    - String date
+    - String status
+    + getId(): Long
+    + getOrderId(): String
+    + getCustomerName(): String
+    + getDate(): String
+    + getStatus(): String
+}
+@enduml
